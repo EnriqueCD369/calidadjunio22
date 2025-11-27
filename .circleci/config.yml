@@ -5,23 +5,29 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/guides/orchestrate/jobs-steps/#jobs-overview & https://circleci.com/docs/reference/configuration-reference/#jobs
 jobs:
-  build:
+  # renamed from 'build' to 'say-hello' to match the workflow below
+  say-hello:
     docker:
       - image: cimg/openjdk:25.0.0
     steps:
       - checkout
-      - run: java --version
-    # Add steps to the job
-    # See: https://circleci.com/docs/guides/orchestrate/jobs-steps/#steps-overview & https://circleci.com/docs/reference/configuration-reference/#steps
-    steps:
-      # Checkout the code as the first step.
-      - checkout
+      
+      - run: 
+          name: "Check Java Version"
+          command: java --version
+          
       - run:
           name: "Say hello"
-          command: "echo Hello, World!"
+          command: echo "Hello, World!"
+          
       - run:
-         name: "Ejecutar prueba"
-        command: "mvn test"
+          name: "Ejecutar prueba"
+          command: mvn test
+
+workflows:
+  say-hello-workflow:
+    jobs:
+      - say-hello
 
 
 # Orchestrate jobs using workflows
